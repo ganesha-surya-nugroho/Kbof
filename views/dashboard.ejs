@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="assets/css/dashboard.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="sidebar">
+        <img src="assets/img/white-logo.png" alt="Logo" class="logo">
+        <ul>
+            <li><a href="/dashboard"><img src="assets/img/chat.png" alt="">Chat</a></li>
+            <li><a href="/contacts"><img src="assets/img/contact.png" alt="">Contacts</a></li>
+            <li><a href="/integration"><img src="assets/img/integration.png" alt="">Integration</a></li>
+            <li class="active"><a href="/agents"><img src="assets/img/ai_agent.png" alt="">AI Agent</a></li>
+        </ul>
+        <a href="#" class="logout"><img src="assets/img/logout.png" alt="">Logout</a>
+    </div>
+
+    <main>
+        <div class="chat">
+            <div class="chat-sidebar">
+                <div class="search">
+                    <img src="assets/img/search.png" alt="">
+                    <input type="text" placeholder="Search conversation...">
+                </div>
+
+                <div class="chat-list">
+                    <div class="chat-item active">
+                        <div class="chat-item-text">
+                            <p class="nama">Miguel</p>
+                            <p class="email">WhatsApp</p>
+                        </div>
+                        <div class="chat-item-info">
+                            <div class="clock">15:35</div>
+                            <div class="status">Resolved</div>
+                        </div>
+                    </div>
+                    
+                    <div class="chat-item">
+                        <div class="chat-item-text">
+                            <p class="nama">Sintya clara</p>
+                            <p class="email">Instagram</p>
+                        </div>
+                        <div class="chat-item-info">
+                            <div class="clock">14:22</div>
+                            <div class="status pending">Pending</div>
+                        </div>
+                    </div>
+
+                    <div class="chat-item">
+                        <div class="chat-item-text">
+                            <p class="nama">Fajar nugraha</p>
+                            <p class="email">WhatsApp</p>
+                        </div>
+                        <div class="chat-item-info">
+                            <div class="clock">Yesterday</div>
+                            <div class="status resolved">Resolved</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chat-content">
+                <div class="chat-header">
+                    <img src="assets/img/profile.png" alt="">
+                    <div class="chat-header-text">
+                        <p class="nama">Miguel</p>
+                        <p class="email">miguel123@gmail.com</p>
+                    </div>
+                </div>
+
+                <div class="chat-message">
+                    <div class="message received">
+                        <p>Halo</p>
+                        <span class="time">15:30</span>
+                    </div>
+                
+                    <div class="message sent">
+                        <p>Halo Miguel! Saya senang bisa membantu Anda dengan pesanan Anda. Bisakah Anda memberikan lebih banyak detail tentang keluhan Anda?</p>
+                        <span class="time">15:32</span>
+                    </div>
+                
+                    <div class="message received">
+                        <p>Saya belum menerima pesanan saya. Sudah 5 hari.</p>
+                        <span class="time">15:33</span>
+                    </div>
+                
+                    <div class="message sent">
+                        <p>Saya mengerti kekhawatiran Anda. Saya akan segera memeriksa status pesanan Anda.</p>
+                        <span class="time">15:35</span>
+                    </div>
+                </div>
+                
+
+                <div class="chat-input">
+                    <input type="text" placeholder="Type your message...">
+                    <button><img src="assets/img/send.png" alt="Send"></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="info">
+            <div class="profile-info">
+                <h3>Miguel</h3>
+                <p>miguel123@gmail.com</p>
+                <p>+628123456789</p>
+                <p><img src="assets/img/whatsapp.png" alt="">WhatsApp</p>
+            </div>
+            <hr>
+            <div class="label">
+                <p>Labels</p>
+                <div class="label-list">
+                    <span class="label-item">Support</span>
+                    <span class="label-item">Order Issue</span>
+                </div>
+                <button><img src="assets/img/plus.png" alt="">Add Label</button>
+            </div>
+            <hr>
+            <div class="notes">
+                <p>Notes</p>
+                <input type="text" placeholder="Add note here...">
+            </div>
+            <hr>
+            <button class="end-conversation">End Conversation</button>
+        </div>
+    </main>
+</body>
+</html>

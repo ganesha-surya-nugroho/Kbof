@@ -1,0 +1,167 @@
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <title>Chat with Mistral AI Agent</title>  
+    <style>  
+        body {  
+            font-family: Arial, sans-serif;  
+            margin: 0;  
+            padding: 0;  
+            background-color: #f0f0f0;  
+        }  
+        #chatContainer {  
+            display: none;  
+            width: 400px;  
+            height: 600px;  
+            border: 1px solid #ccc;  
+            border-radius: 5px;  
+            background-color: white;  
+            margin: 20px auto;  
+            padding: 10px;  
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);  
+            overflow-y: auto;  
+        }  
+        #messages {  
+            height: 500px;  
+            overflow-y: auto;  
+            margin-bottom: 10px;  
+        }  
+        .message {  
+            margin: 5px 0;  
+            padding: 10px;  
+            border-radius: 5px;  
+        }  
+        .user-message {  
+            background-color: #09418A;  
+            color: #fff;
+            text-align: right;  
+        }  
+        .ai-message {  
+            background-color: #0295F8;  
+            color: #fff;
+            text-align: left;  
+        }  
+        #inputContainer {  
+            display: flex;  
+        }  
+        #inputMessage {  
+            flex: 1;  
+            padding: 10px;  
+            border: 1px solid #ccc;  
+            border-radius: 5px;  
+        }  
+        #sendButton {  
+            padding: 10px;  
+            border: none;  
+            background-color: #007bff;  
+            color: white;  
+            border-radius: 5px;  
+            cursor: pointer;  
+        }  
+    </style>  
+</head>  
+<body>  
+    <h1>Contact Mistral AI Agent</h1>  
+    <form id="contactForm">  
+        <input type="text" id="name" name="name" placeholder="Nama Lengkap" required autocomplete="name">  
+        <input type="email" id="email" name="email" placeholder="Email" required autocomplete="email">  
+        <input type="text" id="phone" name="phone" placeholder="Nomor Telepon" required autocomplete="tel">  
+        <button type="submit">Lanjut ke Chat</button>  
+    </form>  
+  
+    <div id="chatContainer">  
+        <div id="messages"></div>  
+        <div id="inputContainer">  
+            <input type="text" id="inputMessage" placeholder="Ketik pesan..." required>  
+            <button id="sendButton">Kirim</button>  
+        </div>  
+    </div>  
+  
+    <script>  
+        let userInfo = {}; // Objek untuk menyimpan informasi pengguna  
+        let agentInfo = <%- JSON.stringify(agentInfo) %>; // Ambil informasi agen sebagai objek JavaScript  
+  
+        document.getElementById('contactForm').addEventListener('submit', async (e) => {  
+            e.preventDefault(); // Mencegah pengiriman form yang mengubah URL  
+            const name = document.getElementById('name').value;  
+            const email = document.getElementById('email').value;  
+            const phone = document.getElementById('phone').value;  
+  
+            // Simpan informasi pengguna  
+            userInfo = { name, email, phone };  
+  
+            // Kirim data kontak ke server  
+            const response = await fetch('/api/contact', {  
+                method: 'POST',  
+                headers: {  
+                    'Content-Type': 'application/json',  
+                },  
+                body: JSON.stringify(userInfo),  
+            });  
+  
+            if (response.ok) {  
+                // Tampilkan area chat setelah berhasil mengirim data  
+                document.getElementById('contactForm').style.display = 'none';  
+                document.getElementById('chatContainer').style.display = 'block';  
+            } else {  
+                alert('Gagal menyimpan data kontak.');  
+            }  
+        });  
+  
+         // Ambil agentId dari URL  
+         const urlParams = new URLSearchParams(window.location.search);  
+        const agentId = urlParams.get('agentId'); // Mengambil nilai agentId dari URL  
+        console.log('Agent ID from URL:', agentId); // Log agentId  
+  
+        document.getElementById('sendButton').addEventListener('click', async () => {  
+            const inputMessage = document.getElementById('inputMessage');  
+            const message = inputMessage.value;  
+            if (!message) return;  
+  
+            // Tampilkan pesan pengguna  
+            displayMessage(message, 'user');  
+  
+            // Kirim pesan ke server  
+            const response = await fetch('/api/ask', {  
+                method: 'POST',  
+                headers: {  
+                    'Content-Type': 'application/json',  
+                },  
+                body: JSON.stringify({  
+                    question: message,  
+                    userInfo: {  
+                        name: userInfo.name,  
+                        email: userInfo.email,  
+                        phone: userInfo.phone  
+                    },  
+                    agentId: agentId // Menggunakan agentId yang diambil dari URL  
+                }),  
+            });  
+  
+            if (!response.ok) {  
+                const errorData = await response.json();  
+                console.error('Error:', errorData.error); // Log kesalahan  
+                displayMessage('Gagal mendapatkan jawaban.', 'ai');  
+                return;  
+            }  
+  
+            const data = await response.json();  
+            // Tampilkan respons dari AI  
+            displayMessage(data.answer || 'Gagal mendapatkan jawaban.', 'ai');  
+  
+            // Kosongkan input  
+            inputMessage.value = '';  
+        });
+        function displayMessage(message, sender) {  
+            const messagesDiv = document.getElementById('messages');  
+            const messageDiv = document.createElement('div');  
+            messageDiv.className = 'message ' + (sender === 'user' ? 'user-message' : 'ai-message');  
+            messageDiv.textContent = message;  
+            messagesDiv.appendChild(messageDiv);  
+            messagesDiv.scrollTop = messagesDiv.scrollHeight; // Scroll ke bawah  
+        }  
+    </script>  
+</body>  
+</html>  
